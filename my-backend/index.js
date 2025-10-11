@@ -51,6 +51,21 @@ app.get("/completed-orders", async (req,res) => {
         console.log(err);
         res.status(500).json({error : "Filtering completed query failed"});
     }
+});
+
+//Filter order by trade
+app.get("/filter-orders", async (req,res) => {
+    const {trade,orderType} = req.query;
+    let completionStatus = orderType == 'Completed' ? true : false;
+    try {
+        const result = await pool.query(
+            'SELECT * FROM orders where completed = $1 AND trade = $2',[completionStatus,trade]
+        );
+        res.json(result.rows);
+    } catch (err) {
+        console.log(err);
+        res.status(500).json({error : "Filtering query failed"});
+    }
 })
 
 //Start server

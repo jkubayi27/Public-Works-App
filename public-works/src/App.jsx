@@ -1,7 +1,8 @@
 import { useState, useEffect } from 'react'
+import axios from 'axios'
 import Header from './Header'
 import CreateOrder from './CreateArea'
-import Footer from './Footer'
+import Filter from './FilterArea'
 import Result from './Result'
 
 function App() {
@@ -28,18 +29,29 @@ function App() {
     console.log("User added ",data);
   }
 
-  async function filterByCompleted() {
+  /*async function filterByCompleted() {
     fetch("http://localhost:5000/completed-orders")
     .then(res => res.json())
     .then(data => setOrders(data))
+  }*/
+
+  async function filterOrders(filter) {
+    try {
+      const response = await axios.get('http://localhost:5000/filter-orders',{
+        params: {trade : filter.trade, orderType : filter.orderType},
+      });
+      setOrders(response.data);
+    } catch (error) {
+      console.error("Error filtering data");
+    }
   }
 
   return (
     <>
       <Header/>
       <CreateOrder onAdd={addOrder}/>
-      <Result orders={orders} filter={filterByCompleted}/> 
-      <Footer/>
+      <Filter filterOrders={filterOrders}/>
+      <Result orders={orders}/>
     </>
   )
 }
