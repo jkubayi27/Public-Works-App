@@ -68,6 +68,19 @@ app.get("/filter-orders", async (req,res) => {
     }
 })
 
+//Retrieve order datils via id
+app.get("/get-order/:id", async (req,res) => {
+    const orderID = req.params.id;
+    try {
+        const result = await pool.query("SELECT * FROM orders WHERE id=$1",[orderID]);
+        res.json(result);
+    } catch (err) {
+        console.log(err);
+        
+    }
+    
+})
+
 //Start server
 const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
