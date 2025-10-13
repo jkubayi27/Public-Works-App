@@ -5,7 +5,7 @@ function Result(props) {
         <>
             <h2 className='filerHaeding'>Works Orders</h2>
             {props.orders.map((order,index) => (
-                 <Link to={`/${order.ordernum}`}>
+                 <Link key={index} to={`/${order.ordernum}`}>
                     <Order 
                         key={order.ordernum} 
                         orderNum={order.ordernum} 

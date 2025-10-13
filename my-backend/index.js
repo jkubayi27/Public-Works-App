@@ -69,16 +69,30 @@ app.get("/filter-orders", async (req,res) => {
 })
 
 //Retrieve order datils via id
-app.get("/get-order/:id", async (req,res) => {
+app.get("/orders/:id", async (req,res) => {
     const orderID = req.params.id;
     try {
-        const result = await pool.query("SELECT * FROM orders WHERE id=$1",[orderID]);
-        res.json(result);
+        const result = await pool.query("SELECT * FROM orders WHERE ordernum = $1",[orderID]);
+        res.json(result.rows);
     } catch (err) {
         console.log(err);
-        
+        console.log("Failed to fetch order info");
     }
-    
+})
+
+//Patch request to a works order
+app.put("/orders/:id", async (req,res) => {
+    const orderID = req.params.id;
+    const {completed,date,orderdesc,ordernum,remark,trade,wardnum} = req.query;
+    try {
+        const result = await pool.query(
+            "UPDATE orders SET completed = $1,date = $2,orderdesc = $3,ordernum = $4,remark = $5,trade = $6,wardnum = $7 WHERE ordernum = $8",
+            [completed,date,orderdesc,ordernum,remark,trade,wardnum,orderID]);
+        res.json(result.rows);
+    } catch (err) {
+        console.log(err);
+        console.log("Failed to update order");
+    }
 })
 
 //Start server

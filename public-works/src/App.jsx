@@ -18,7 +18,7 @@ function App() {
   //add styling to indicate the status of the order through colouring.
   async function addOrder(newOrder) {
     setOrders(prevOrders => [...prevOrders,newOrder]);
-    console.log(newOrder);
+    //console.log(newOrder);
     const {ordernum,wardnum, orderdesc, date, trade} = newOrder;
     const response = await fetch('http://localhost:5000/add-order',{
       method: 'POST',
