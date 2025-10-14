@@ -83,11 +83,12 @@ app.get("/orders/:id", async (req,res) => {
 //Patch request to a works order
 app.put("/orders/:id", async (req,res) => {
     const orderID = req.params.id;
-    const {completed,date,orderdesc,ordernum,remark,trade,wardnum} = req.query;
+    console.log(req.body);
+    const {completed,date,orderdesc,remark,trade,wardnum} = req.body;
     try {
         const result = await pool.query(
-            "UPDATE orders SET completed = $1,date = $2,orderdesc = $3,ordernum = $4,remark = $5,trade = $6,wardnum = $7 WHERE ordernum = $8",
-            [completed,date,orderdesc,ordernum,remark,trade,wardnum,orderID]);
+            "UPDATE orders SET completed = $1,date = $2,orderdesc = $3,remark = $4,trade = $5,wardnum = $6 WHERE ordernum = $7",
+            [completed,date,orderdesc,remark,trade,wardnum,orderID]);
         res.json(result.rows);
     } catch (err) {
         console.log(err);
