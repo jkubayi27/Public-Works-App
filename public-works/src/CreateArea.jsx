@@ -28,7 +28,10 @@ function CreateOrder(props) {
                 <input type="text" name="ordernum" placeholder="Enter Order Number" onChange={handleChange}/>
                 <input type="text" name="wardnum" placeholder="Enter Ward Number" onChange={handleChange}/>
                 <input type="date" name="date" onChange={handleChange}/>
-                <textarea name="orderdesc" rows="3" onChange={handleChange}></textarea>
+                <textarea name="orderdesc" 
+                rows="3" 
+                onChange={handleChange}
+                placeholder="Enter the work order description"></textarea>
                 <label htmlFor="trade">Select trade : </label>
                 <select name="trade" id="trade" onChange={handleChange}>
                     <option value="Electrical">Electrical</option>
