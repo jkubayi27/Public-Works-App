@@ -1,4 +1,7 @@
 import Header from "./Header";
+function authenticate() {
+    
+}
 
 function signIn() {
     return (

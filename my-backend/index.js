@@ -1,6 +1,8 @@
 const express = require("express");
 const {Pool} = require("pg");
 const cors = require("cors");
+import passport from 'passport';
+import { Strategy } from 'passport-local';
 require("dotenv").config();
 
 const app = express();
