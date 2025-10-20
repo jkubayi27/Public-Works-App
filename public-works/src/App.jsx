@@ -14,8 +14,6 @@ function App() {
     .then(data => setOrders(data))
   },[]);
 
-  //turn back the data type of date in PG back to date OR turn it back at server-side.
-  //add styling to indicate the status of the order through colouring.
   async function addOrder(newOrder) {
     setOrders(prevOrders => [...prevOrders,newOrder]);
     //console.log(newOrder);

@@ -1,8 +1,6 @@
 const express = require("express");
 const {Pool} = require("pg");
 const cors = require("cors");
-import passport from 'passport';
-import { Strategy } from 'passport-local';
 require("dotenv").config();
 
 const app = express();
@@ -18,6 +16,23 @@ const pool = new Pool({
     port : process.env.DB_PORT,
 });
 
+//Check username & password
+app.get('/authenticate', async (req,res) => {
+    const {username,password} = req.query;
+    try {
+        const result = await pool.query('SELECT username,password FROM users WHERE username = $1 AND password = $2',[username,password]);
+        correctPassword = result.rows[0].password;
+        if (correctPassword == password){
+            res.json(true);
+            console.log('Login successful')
+        } else {
+            res.send(false)
+            console.log('Incorrect password or username');
+        }  
+    } catch(err) {
+        console.log('Login query error',err);
+    }
+})
 //Example route
 app.get("/orders", async (req,res) => {
     try {
