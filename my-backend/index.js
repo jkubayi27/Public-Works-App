@@ -17,6 +17,7 @@ const pool = new Pool({
 });
 
 //Check username & password
+//Install bcrypt module for hashing and protecting user password
 app.get('/authenticate', async (req,res) => {
     const {username,password} = req.query;
     try {
