@@ -16,6 +16,24 @@ const pool = new Pool({
     port : process.env.DB_PORT,
 });
 
+//Check username & password
+//Install bcrypt module for hashing and protecting user password
+app.get('/authenticate', async (req,res) => {
+    const {username,password} = req.query;
+    try {
+        const result = await pool.query('SELECT username,password FROM users WHERE username = $1 AND password = $2',[username,password]);
+        correctPassword = result.rows[0].password;
+        if (correctPassword == password){
+            res.json(true);
+            console.log('Login successful')
+        } else {
+            res.send(false)
+            console.log('Incorrect password or username');
+        }  
+    } catch(err) {
+        console.log('Login query error',err);
+    }
+})
 //Example route
 app.get("/orders", async (req,res) => {
     try {
@@ -65,6 +83,34 @@ app.get("/filter-orders", async (req,res) => {
     } catch (err) {
         console.log(err);
         res.status(500).json({error : "Filtering query failed"});
+    }
+})
+
+//Retrieve order datils via id
+app.get("/orders/:id", async (req,res) => {
+    const orderID = req.params.id;
+    try {
+        const result = await pool.query("SELECT * FROM orders WHERE ordernum = $1",[orderID]);
+        res.json(result.rows);
+    } catch (err) {
+        console.log(err);
+        console.log("Failed to fetch order info");
+    }
+})
+
+//Patch request to a works order
+app.put("/orders/:id", async (req,res) => {
+    const orderID = req.params.id;
+    console.log(req.body);
+    const {completed,date,orderdesc,remark,trade,wardnum} = req.body;
+    try {
+        const result = await pool.query(
+            "UPDATE orders SET completed = $1,date = $2,orderdesc = $3,remark = $4,trade = $5,wardnum = $6 WHERE ordernum = $7",
+            [completed,date,orderdesc,remark,trade,wardnum,orderID]);
+        res.json(result.rows);
+    } catch (err) {
+        console.log(err);
+        console.log("Failed to update order");
     }
 })
 
