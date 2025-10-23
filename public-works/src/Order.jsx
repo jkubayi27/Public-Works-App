@@ -9,8 +9,6 @@ function Order(props) {
             <h3>Order Number : {props.orderNum}</h3>
             <h4>Ward Number : {props.wardNum}</h4>
             <p>{props.description}</p>
-            <button>Set as complete</button>
-            <button>Add Remark</button>
         </div>
     )
 }
