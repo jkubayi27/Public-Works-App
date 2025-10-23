@@ -30,22 +30,11 @@ function OrderItem() {
             console.error('Error updating order:', error);
         }
     }
-
-    /*const getData = async (id) => {
-        try {
-            const response = await axios.get(`http://localhost:5000/orders/${id}`);
-            console.log(response.data);
-        } catch (err) {
-            console.log(err);
-        }
-    }
-
-    getData(id);*/
    
     //Perform a PUT/PATCH function when the form is sub,ited that updates the order in the database
     return (
         <>
-        <Header/>
+        <Header display="block" redirect='/home'/>
         <div className="orderInput">
             <h2>Edit Works Order {id}</h2>
             <form className="inputForm">

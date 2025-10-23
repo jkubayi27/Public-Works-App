@@ -114,6 +114,19 @@ app.put("/orders/:id", async (req,res) => {
     }
 })
 
+//Get or generate report info
+app.get("/report",async (req,res) => {
+    try {
+        const result = await pool.query(
+            "SELECT trade,COUNT (*) as occurence FROM orders GROUP BY trade"
+        );
+        res.json(result.rows);
+    } catch(err) {
+        console.log(err);
+        console.log("Failed to get trade occurences");
+    }
+})
+
 //Start server
 const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
