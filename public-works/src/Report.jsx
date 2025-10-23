@@ -7,6 +7,8 @@ function Report() {
         trade: 'All'
     });
 
+    const [reportDta,setReportData] = useState([]);
+
     function handleChange(e) {
         const {value,name} = e.target;
         setTrade(prev => {
@@ -15,12 +17,19 @@ function Report() {
     }
 
     //function gets data of number of each trades occurences
-    function generateReport() {
-        const result = axios.get('http://localhost:5000/report')
+    async function generateReport() {
+        try{
+            const result = await axios.get('http://localhost:5000/report');
+            console.log(result.data);
+            setReportData(result.data);
+        } catch (err) {
+            console.log('Error loading data to report',err);
+        }  
     }
 
     function handleSubmit(e) {
         e.preventDefault();
+        generateReport();
     }
 
     return (
@@ -36,12 +45,14 @@ function Report() {
                         <option value="Carpentry">Carpentry</option>
                         <option value="Plumbing">Plumbing</option>
                     </select>
-                    <button type="submit" onClick={handleChange}>Get report</button>
+                    <button type="submit" onClick={handleSubmit}>Get report</button>
                 </form>
             </div>
             <div className="report">
-                <h2></h2>
+                
             </div>
         </>
     )
 }
+
+export default Report;

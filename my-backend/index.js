@@ -116,6 +116,7 @@ app.put("/orders/:id", async (req,res) => {
 
 //Get or generate report info
 app.get("/report",async (req,res) => {
+    const tradeType = req.params.tradeType;
     try {
         const result = await pool.query(
             "SELECT trade,COUNT (*) as occurence FROM orders GROUP BY trade"
