@@ -35,7 +35,7 @@ function Report() {
 
     return (
         <>
-            <Header display="block" redirect='/home'/>
+            <Header/>
             <div className="orderInput">
                 <h1>Performance Report</h1>
                 <form className="inputForm">

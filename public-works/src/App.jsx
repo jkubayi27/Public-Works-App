@@ -48,7 +48,6 @@ function App() {
   return (
     <>
       <Header/>
-      <CreateOrder onAdd={addOrder}/>
       <Filter filterOrders={filterOrders}/>
       <Result orders={orders}/>
     </>

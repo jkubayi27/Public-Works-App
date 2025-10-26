@@ -6,10 +6,12 @@ import {createBrowserRouter, RouterProvider} from 'react-router-dom'
 import OrderItem from './OrderItem.jsx'
 import SignIn from './SignIn.jsx'
 import Report from './Report.jsx'
+import CreateOrder from './CreateArea.jsx'
 
 const router = createBrowserRouter([
   {path:"/",element : <SignIn/>},
   {path:"/home",element : <App/>},
+  {path:"/create",element : <CreateOrder/>},
   {path:"/:id",element : <OrderItem/>},
   {path:"/report",element : <Report/>}
 ])

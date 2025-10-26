@@ -1,5 +1,5 @@
 import { useState } from "react"
-
+import Header from "./Header";
 function CreateOrder(props) {
     const [newOrder,setNewOrder] = useState({
         ordernum : 0, 
@@ -22,6 +22,8 @@ function CreateOrder(props) {
     }
 
     return (
+        <>
+        <Header/>
         <div className="orderInput">
             <h2>Create Works Order</h2>
             <form className="inputForm">
@@ -41,6 +43,7 @@ function CreateOrder(props) {
                 <button type="submit" onClick={submitNote}>Submit</button>
             </form>
         </div>
+        </>
     )
 }
 

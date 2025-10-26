@@ -5,7 +5,6 @@ const passport = require("passport");
 require("dotenv").config();
 const session = require("express-session");
 const Strategy = require("passport-local");
-const e = require("express");
 
 const app = express();
 app.use(cors());
@@ -25,7 +24,10 @@ app.use(session({
     secret : "JulioSecret",
     resave : false,
     saveUninitialized : false,
-    cookie : {secure : false}
+    cookie : {
+        httpOnly : true,
+        secure : false
+    }
 }));
 
 app.use(passport.initialize());
@@ -52,6 +54,16 @@ app.get('/authenticate', async (req,res) => {
         console.log(err);
     }
 })
+
+//Logout of session
+app.get('/logout', (req,res) => {
+    req.session.destroy(err => {
+        if (err) return res.status(500).json({error: err.message});
+        res.clearCookie("connect.sid");
+        res.json({message : "Logged out successfully"});
+    });
+});
+
 //Example route
 app.get("/orders", async (req,res) => {
     try {
