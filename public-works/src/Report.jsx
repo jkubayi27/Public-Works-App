@@ -1,13 +1,14 @@
 import { useState } from "react"
 import Header from "./Header"
 import axios from "axios";
+import ReportItem from "./ReportItem";
 function Report() {
 
     const [trade,setTrade] = useState({
         trade: 'All'
     });
 
-    const [reportDta,setReportData] = useState([]);
+    const [reportData,setReportData] = useState([]);
 
     function handleChange(e) {
         const {value,name} = e.target;
@@ -34,7 +35,7 @@ function Report() {
 
     return (
         <>
-            <Header/>
+            <Header display="block" redirect='/home'/>
             <div className="orderInput">
                 <h1>Performance Report</h1>
                 <form className="inputForm">
@@ -49,7 +50,13 @@ function Report() {
                 </form>
             </div>
             <div className="report">
-                
+                {reportData.map((data,index) => (
+                    <ReportItem
+                        key={index}
+                        trade={data.trade}
+                        occurence={data.occurence}
+                    />
+                ))}
             </div>
         </>
     )

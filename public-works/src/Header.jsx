@@ -7,10 +7,10 @@ function Header(props) {
     }
     return (
         <div className="heading">
+            <h1>Witbank General Hospital</h1>
             <button style={customStyle}>
                 <Link to={props.redirect}>Back</Link>
             </button>
-            <h1>Witbank General Hospital</h1>
         </div>
     )
 }
