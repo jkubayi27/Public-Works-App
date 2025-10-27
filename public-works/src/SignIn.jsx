@@ -16,13 +16,13 @@ function SignIn() {
 
     async function submitLogin(e) {
         e.preventDefault();
-        const response = await axios.get('http://localhost:5000/authenticate',{
-            params : {username : user.username, password : user.password},
-        });
-        if (response.data == true) {
-            navigate('/home');
-        } else {
-            alert('Incorrect username or password');
+        try {
+             const res = await axios.post("http://localhost:5000/login", { username: user.username, password: user.password });
+             if (res.data.valid == true) {
+                navigate('/home');
+             }
+        } catch(err) {
+             alert('Incorrect username or password');
         }
     }
     return (

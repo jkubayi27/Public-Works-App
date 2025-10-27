@@ -21,39 +21,18 @@ const pool = new Pool({
 
 //Create session
 app.use(session({
-    secret : "JulioSecret",
+    secret : "TOPSECRETWORD",
     resave : false,
-    saveUninitialized : false,
-    cookie : {
-        httpOnly : true,
-        secure : false
-    }
+    saveUninitialized: true,
 }));
 
 app.use(passport.initialize());
 app.use(passport.session());
 
 //Login using session
-app.get('/authenticate', async (req,res) => {
-    const {username,password} = req.query;
-    try {
-        const result = await pool.query('SELECT * FROM users WHERE username = $1',[username]);
-        const user = result.rows[0];
-        console.log(user);
-        if (!user) {
-            console.log('User not found')
-        } else if (user.password == password) {
-            //Store user credentials in session
-            req.session.user = {id : user.id, username : user.username};
-            res.json(true);
-        } else {
-            res.json(false);
-            console.log('Invalid credentials');
-        }
-    } catch(err) {
-        console.log(err);
-    }
-})
+app.post("/login", passport.authenticate("local"), (req, res) => {
+  res.json({ user: req.user, valid : true });
+});
 
 //Logout of session
 app.get('/logout', (req,res) => {
@@ -165,6 +144,7 @@ passport.use(new Strategy (async function verify(username,password, cb) {
         const result = await pool.query('SELECT * FROM users WHERE username = $1 AND password = $2',[username,password]);
         if (result.rows.length > 0) {
             const user = result.rows[0];
+            console.log(user)
             const correctPassword = user.password;
             if (correctPassword == password){
                 console.log('Login successful');
