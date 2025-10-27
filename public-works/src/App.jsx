@@ -15,19 +15,6 @@ function App() {
     .then(data => setOrders(data))
   },[]);
 
-  async function addOrder(newOrder) {
-    setOrders(prevOrders => [...prevOrders,newOrder]);
-    //console.log(newOrder);
-    const {ordernum,wardnum, orderdesc, date, trade} = newOrder;
-    const response = await fetch('http://localhost:5000/add-order',{
-      method: 'POST',
-      headers: {"Content-type":"application/json"},
-      body: JSON.stringify({ordernum,wardnum,orderdesc, date, trade}),
-    });
-    const data = await response.json();
-    console.log("User added ",data);
-  }
-
   /*async function filterByCompleted() {
     fetch("http://localhost:5000/completed-orders")
     .then(res => res.json())
