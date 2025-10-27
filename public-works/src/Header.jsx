@@ -1,8 +1,8 @@
 import axios from "axios";
-import { Link } from "react-router-dom";
+import { Link,useNavigate} from "react-router-dom";
 
 function Header() {
-
+    const navigate = useNavigate();
     async function logOut() {
         const response = await axios.get('http://localhost:5000/logout');
         console.log(response)
@@ -11,6 +11,7 @@ function Header() {
         } else {
             console.log('session expired');
         }
+        navigate("/");
     }
 
     return (
