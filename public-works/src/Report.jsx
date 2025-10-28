@@ -54,7 +54,8 @@ function Report() {
                     <ReportItem
                         key={index}
                         trade={data.trade}
-                        occurence={data.occurence}
+                        complete={data.complete}
+                        incomplete={data.incomplete}
                     />
                 ))}
             </div>

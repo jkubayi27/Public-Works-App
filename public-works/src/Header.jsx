@@ -1,5 +1,6 @@
 import axios from "axios";
 import { Link,useNavigate} from "react-router-dom";
+import Nav from "./Nav";
 
 function Header() {
     const navigate = useNavigate();
@@ -17,16 +18,10 @@ function Header() {
     return (
         <div className="heading">
             <h1>Witbank General Hospital</h1>
-            <button onClick={logOut}>
+            <button onClick={logOut} className="logOut">
                 Logout
             </button>
-            <nav>
-                <ul>
-                    <li><Link to='/create'>Create Works Order</Link></li>
-                    <li><Link to='/report'>Report</Link></li>
-                    <li><Link to='/home'>Home</Link></li>
-                </ul>
-            </nav>
+            <Nav/>
         </div>
     )
 }

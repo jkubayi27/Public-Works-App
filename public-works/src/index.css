@@ -60,3 +60,13 @@ form.inputForm input, textarea,button {
 .filerHaeding {
   text-align: center;
 }
+
+.nav-links {
+  width:max-content;
+  list-style: none;
+  text-align: center;
+}
+
+.head-links {
+  justify-items: center;
+}

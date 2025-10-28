@@ -128,7 +128,12 @@ app.get("/report",async (req,res) => {
     const tradeType = req.params.tradeType;
     try {
         const result = await pool.query(
-            "SELECT trade,COUNT (*) as occurence FROM orders GROUP BY trade"
+            `SELECT trade,
+            SUM(CASE WHEN completed = TRUE THEN 1 ELSE 0 END) AS complete,
+            SUM(CASE WHEN completed = FALSE THEN 1 ELSE 0 END) AS incomplete
+            FROM orders
+            GROUP BY trade;
+            `
         );
         res.json(result.rows);
     } catch(err) {

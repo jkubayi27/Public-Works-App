@@ -1,7 +1,6 @@
 import { useState, useEffect } from 'react'
 import axios from 'axios'
 import Header from './Header'
-import CreateOrder from './CreateArea'
 import Filter from './FilterArea'
 import Result from './Result'
 import {BrowserRouter as Router,Routes,Route,Link} from "react-router-dom";
