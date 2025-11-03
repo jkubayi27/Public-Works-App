@@ -15,15 +15,17 @@ function SignIn() {
     }
 
     async function submitLogin(e) {
-        e.preventDefault();
-        try {
-             const res = await axios.post("http://localhost:5000/login", { username: user.username, password: user.password });
-             if (res.data.valid == true) {
-                navigate('/home');
-             }
-        } catch(err) {
-             alert('Incorrect username or password');
-        }
+       e.preventDefault();
+       try {
+           const res = await axios.post("http://localhost:5000/login", { username: user.username, password: user.password });
+           if (res.data.valid == true) {
+             // mark user as authenticated (simple flag). In a real app store a JWT or session token.
+             localStorage.setItem('authenticated', 'true');
+             navigate('/home');
+           }
+       } catch(err) {
+           alert('Incorrect username or password');
+       }
     }
     return (
         <>

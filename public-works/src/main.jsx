@@ -7,13 +7,14 @@ import OrderItem from './OrderItem.jsx'
 import SignIn from './SignIn.jsx'
 import Report from './Report.jsx'
 import CreateOrder from './CreateArea.jsx'
+import ProtectedRoute from './ProtectedRoute.jsx'
 
 const router = createBrowserRouter([
-  {path:"/",element : <SignIn/>},
-  {path:"/home",element : <App/>},
-  {path:"/create",element : <CreateOrder/>},
-  {path:"/:id",element : <OrderItem/>},
-  {path:"/report",element : <Report/>}
+  { path: '/', element: <SignIn /> },
+  { path: '/home', element: <ProtectedRoute><App/></ProtectedRoute> },
+  { path: '/create', element: <ProtectedRoute><CreateOrder/></ProtectedRoute> },
+  { path: '/:id', element: <ProtectedRoute><OrderItem/></ProtectedRoute> },
+  { path: '/report', element: <ProtectedRoute><Report/></ProtectedRoute> }
 ])
 
 
