@@ -49,7 +49,7 @@ function Report() {
                     <button type="submit" onClick={handleSubmit}>Get report</button>
                 </form>
             </div>
-            <div className="report">
+            <div className="orderInput">
                 {reportData.map((data,index) => (
                     <ReportItem
                         key={index}

@@ -30,8 +30,11 @@ function OrderItem() {
             console.error('Error updating order:', error);
         }
     }
+
+    //Format the workOrder.date to fit the date
+    const formattedDate = '';
    
-    //Perform a PUT/PATCH function when the form is sub,ited that updates the order in the database
+    //Perform a PUT/PATCH function when the form is submited that updates the order in the database
     return (
         <>
         <Header display="block" redirect='/home'/>
