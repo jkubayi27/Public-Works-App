@@ -29,7 +29,7 @@ function SignIn() {
     }
     return (
         <>
-            <Header/>
+            <Header showLog='hidden' showNav='hidden'/>
             <div className="orderInput">
                 <form className="inputForm">
                     <label htmlFor="username">Username : </label>

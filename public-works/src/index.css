@@ -61,11 +61,21 @@ form.inputForm input, textarea,button {
   text-align: center;
 }
 
-.nav-links {
-  list-style: none;
-  text-align: center;
+.head-links {
+  margin-top: 10px;
+  display: flex;
+  justify-content: center;
+}
+
+.head-btn {
+  width: 300px;
+  margin: 10px;
 }
 
 .logOut {
   text-align: center;
+}
+
+.hidden {
+  display: none;
 }

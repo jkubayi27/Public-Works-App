@@ -3,7 +3,6 @@ import axios from 'axios'
 import Header from './Header'
 import Filter from './FilterArea'
 import Result from './Result'
-import {BrowserRouter as Router,Routes,Route,Link} from "react-router-dom";
 
 function App() {
   const [orders, setOrders] = useState([]);
