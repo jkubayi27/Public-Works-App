@@ -79,3 +79,7 @@ form.inputForm input, textarea,button {
 .hidden {
   display: none;
 }
+
+.submit-btn {
+  margin: 10px 5px;
+}

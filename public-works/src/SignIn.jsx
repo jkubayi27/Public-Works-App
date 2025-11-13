@@ -36,7 +36,7 @@ function SignIn() {
                     <input type="text" name="username" id="username" onChange={handleChange} value={user.username} autoComplete="off"/>
                     <label htmlFor="password">Password : </label>
                     <input type="text" name="password" id="password" onChange={handleChange} value={user.password} autoComplete="off"/>
-                    <button type="submit" onClick={submitLogin}>Log In</button>
+                    <button type="submit" className="submit-btn" onClick={submitLogin}>Log In</button>
                 </form>
             </div>
         </>
