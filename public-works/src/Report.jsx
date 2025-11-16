@@ -23,6 +23,7 @@ function Report() {
             const result = await axios.get('http://localhost:5000/report');
             console.log(result.data);
             setReportData(result.data);
+            //Add mor fech requests to make the report more detailed
         } catch (err) {
             console.log('Error loading data to report',err);
         }  

@@ -21,6 +21,7 @@ function OrderItem() {
         })
     }
 
+    //Perform a PUT/PATCH function when the form is submited that updates the order in the database
    const updateOrder  = async (e) => {
         e.preventDefault();
         try {
@@ -33,8 +34,6 @@ function OrderItem() {
 
     //Format the workOrder.date to fit the date
     const formattedDate = '';
-   
-    //Perform a PUT/PATCH function when the form is submited that updates the order in the database
     return (
         <>
         <Header display="block" redirect='/home'/>

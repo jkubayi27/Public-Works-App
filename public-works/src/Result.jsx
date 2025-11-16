@@ -12,6 +12,7 @@ function Result(props) {
                         wardNum={order.wardnum} 
                         description={order.orderdesc} 
                         completion={order.completed}
+                        status={order.remark}
                     />
                 </Link>
             ))}

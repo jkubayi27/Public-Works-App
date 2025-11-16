@@ -9,6 +9,7 @@ function Order(props) {
             <h3>Order Number : {props.orderNum}</h3>
             <h4>Ward Number : {props.wardNum}</h4>
             <p>{props.description}</p>
+            <p className="status">{props.status ? props.status :'Awaiting review'}</p> 
         </div>
     )
 }
