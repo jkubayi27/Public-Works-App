@@ -24,7 +24,7 @@ function CreateOrder(props) {
         body: JSON.stringify({ordernum,wardnum,orderdesc, date, trade}),
         });
         const data = await response.json();
-        console.log("WO added ",data);
+        alert('Works Order successfully created');
     }
 
     async function submitNote(e) {
@@ -38,9 +38,9 @@ function CreateOrder(props) {
         <div className="orderInput">
             <h2>Create Works Order</h2>
             <form className="inputForm">
-                <input type="text" name="ordernum" placeholder="Enter Order Number" onChange={handleChange}/>
-                <input type="text" name="wardnum" placeholder="Enter Ward Number" onChange={handleChange}/>
-                <input type="date" name="date" onChange={handleChange}/>
+                <input type="text" name="ordernum" placeholder="Enter Order Number" onChange={handleChange} autoComplete="off"/>
+                <input type="text" name="wardnum" placeholder="Enter Ward Number" onChange={handleChange} autoComplete="off"/>
+                <input type="date" name="date" onChange={handleChange} autoComplete="off"/>
                 <textarea name="orderdesc" 
                 rows="3" 
                 onChange={handleChange}

@@ -27,6 +27,7 @@ function OrderItem() {
         try {
             const response = await axios.put(`http://localhost:5000/orders/${id}`,worksOrder);
             console.log('User updated:', response.data);
+            alert('Order has been updated')
         } catch (error) {
             console.error('Error updating order:', error);
         }
