@@ -38,15 +38,15 @@ function CreateOrder(props) {
         <div className="orderInput">
             <h2>Create Works Order</h2>
             <form className="inputForm">
-                <input type="text" name="ordernum" placeholder="Enter Order Number" onChange={handleChange} autoComplete="off"/>
-                <input type="text" name="wardnum" placeholder="Enter Ward Number" onChange={handleChange} autoComplete="off"/>
-                <input type="date" name="date" onChange={handleChange} autoComplete="off"/>
+                <input type="text" name="ordernum" placeholder="Enter Order Number" onChange={handleChange} autoComplete="off" required/>
+                <input type="text" name="wardnum" placeholder="Enter Ward Number" onChange={handleChange} autoComplete="off" required/>
+                <input type="date" name="date" onChange={handleChange} autoComplete="off" required/>
                 <textarea name="orderdesc" 
                 rows="3" 
                 onChange={handleChange}
                 placeholder="Enter the work order description"></textarea>
                 <label htmlFor="trade">Select trade : </label>
-                <select name="trade" id="trade" onChange={handleChange}>
+                <select name="trade" id="trade" onChange={handleChange} required>
                     <option value="Electrical">Electrical</option>
                     <option value="Plumbing">Plumbing</option>
                     <option value="Carpentry">Carpentry</option>
