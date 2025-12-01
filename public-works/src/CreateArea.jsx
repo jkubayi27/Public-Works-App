@@ -24,7 +24,9 @@ function CreateOrder(props) {
         body: JSON.stringify({ordernum,wardnum,orderdesc, date, trade}),
         });
         const data = await response.json();
-        alert('Works Order successfully created');
+        if (data) {
+            alert('Works Order successfully created');
+        }
     }
 
     async function submitNote(e) {
