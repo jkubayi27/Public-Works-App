@@ -46,7 +46,7 @@ app.get('/logout', (req,res) => {
 //Example route
 app.get("/orders", async (req,res) => {
     try {
-        const result = await pool.query('SELECT * FROM orders');
+        const result = await pool.query('SELECT * FROM orders ORDER BY date DESC');
         res.json(result.rows);
     } catch (err) {
         console.log(err);
