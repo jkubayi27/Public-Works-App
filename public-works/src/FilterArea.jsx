@@ -38,7 +38,10 @@ function Filter(props) {
                 <option value="Completed">Completed</option>
                 <option value="Incompleted">Incompleted</option>
             </select>
-            <button type="submit" onClick={submitFilters}>View Orders</button>
+            <button 
+                type="submit" 
+                onClick={submitFilters}
+                style={{marginTop : '10px'}}>View Orders</button>
         </form>
      </div>
     )
