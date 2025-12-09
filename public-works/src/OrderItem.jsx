@@ -21,39 +21,36 @@ function OrderItem() {
         })
     }
 
-    //Perform a PUT/PATCH function when the form is submited that updates the order in the database
    const updateOrder  = async (e) => {
         e.preventDefault();
         try {
             const response = await axios.put(`http://localhost:5000/orders/${id}`,worksOrder);
             console.log('User updated:', response.data);
-            alert('Order has been updated')
         } catch (error) {
             console.error('Error updating order:', error);
         }
     }
-
-    //Format the workOrder.date to fit the date
-    const formattedDate = '';
+   
+    //Perform a PUT/PATCH function when the form is sub,ited that updates the order in the database
     return (
         <>
         <Header display="block" redirect='/home'/>
         <div className="orderInput">
             <h2>Edit Works Order {id}</h2>
             <form className="inputForm">
-                <input type="text" name="ordernum" value={worksOrder.ordernum} onChange={handleChange}/>
-                <input type="text" name="wardnum" value={worksOrder.wardnum} onChange={handleChange}/>
-                <input type="date" name="date" defaultValue={worksOrder.date} onChange={handleChange}/>
-                <textarea name="orderdesc" rows="3" defaultValue={worksOrder.orderdesc} onChange={handleChange}></textarea>
+                <input type="text" name="ordernum" value={worksOrder.ordernum || ''} onChange={handleChange}/>
+                <input type="text" name="wardnum" value={worksOrder.wardnum || ''} onChange={handleChange}/>
+                <input type="date" name="date" defaultValue={worksOrder.date || ''} onChange={handleChange}/>
+                <textarea name="orderdesc" rows="3" defaultValue={worksOrder.orderdesc || ''} onChange={handleChange}></textarea>
                 <label htmlFor="trade">Select trade : </label>
-                <select name="trade" id="trade" value={worksOrder.trade} onChange={handleChange}>
+                <select name="trade" id="trade" value={worksOrder.trade || ''} onChange={handleChange}>
                     <option value=""></option>
                     <option value="Electrical">Electrical</option>
                     <option value="Plumbing">Plumbing</option>
                     <option value="Carpentry">Carpentry</option>
                 </select>
                 <textarea name="remark"
-                    value={worksOrder.remark}
+                    value={worksOrder.remark || ''}
                     id="remark" 
                     placeholder="Enter any comments from artisan" 
                     rows="3" 
