@@ -2,10 +2,10 @@ import { useState } from "react"
 import Header from "./Header";
 function CreateOrder(props) {
     const [newOrder,setNewOrder] = useState({
-        ordernum : 0, 
-        wardnum : 0,
+        ordernum : '', 
+        wardnum : '',
         orderdesc : '',
-        date : '2025/01/01',
+        date : undefined,
         trade : ''
     });
 
@@ -29,9 +29,26 @@ function CreateOrder(props) {
         }
     }
 
+    function isFormFilled() {
+        let filled = true;
+        if (newOrder.ordernum === '' || 
+            newOrder.wardnum === '' || 
+            newOrder.orderdesc === '' || 
+            newOrder.date === undefined || 
+            newOrder.trade === '') {
+                filled = false;
+            }
+        return filled;
+    }
+
     async function submitNote(e) {
         e.preventDefault();
-        addOrder(newOrder);
+        const isFormValid = isFormFilled();
+        if (isFormValid) {
+            await addOrder(newOrder);
+        } else {
+            alert("Fill out the form entirely")
+        }
     }
 
     return (
