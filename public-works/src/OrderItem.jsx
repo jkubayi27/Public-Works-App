@@ -2,14 +2,20 @@ import axios from "axios";
 import React, { useEffect } from "react";
 import { useParams } from "react-router-dom";
 import Header from "./Header";
+import MaterialInput from "./components/Material";
+
 function OrderItem() {
     const [worksOrder,setWorksOrder] = React.useState({});
+    const [isComplete,setIsComplete] = React.useState('');
     const {id} = useParams();
     
     useEffect(() => {
     fetch(`http://localhost:5000/orders/${id}`)
     .then(res => res.json())
-    .then(data => setWorksOrder(data[0]))
+    .then(data => {
+        setWorksOrder(data[0]);
+        setIsComplete(data[0].completed);
+    })
     },[]);
 
     console.log(worksOrder);
@@ -19,6 +25,9 @@ function OrderItem() {
         setWorksOrder(prev => {
             return {...prev, [name] : value}
         })
+        if (name === 'completed') {
+            setIsComplete(value)
+        }
     }
 
    const updateOrder  = async (e) => {
@@ -61,6 +70,7 @@ function OrderItem() {
                     <option value="true">True</option>
                     <option value="false">False</option>
                 </select>
+                {isComplete && <MaterialInput/>}
                 <button type="submit" onClick={updateOrder}>Update</button>
             </form>
         </div>
