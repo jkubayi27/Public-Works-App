@@ -3,8 +3,6 @@ import Header from "./Header";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 
-
-
 function SignIn() {
     const [user,setUser] = useState({username : "", password : ""});
     const navigate = useNavigate();

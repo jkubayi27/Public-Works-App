@@ -110,7 +110,6 @@ app.get("/orders/:id", async (req,res) => {
 //Patch request to a works order
 app.put("/orders/:id", async (req,res) => {
     const orderID = req.params.id;
-    console.log(req.body);
     const {completed,date,orderdesc,remark,trade,wardnum} = req.body;
     try {
         const result = await pool.query(

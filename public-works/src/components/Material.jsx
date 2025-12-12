@@ -1,4 +1,5 @@
 export default function MaterialInput() {
+    //Should allow for user to input material name and quantity
     return (
         <div>
             <label htmlFor="material">Enter the material used below : </label>
