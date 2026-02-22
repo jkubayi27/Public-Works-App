@@ -23,6 +23,7 @@ function SignIn() {
            }
        } catch(err) {
            alert('Incorrect username or password');
+           localStorage.removeItem('authenticated');
        }
     }
     return (
@@ -33,7 +34,7 @@ function SignIn() {
                     <label htmlFor="username">Username : </label>
                     <input type="text" name="username" id="username" onChange={handleChange} value={user.username} autoComplete="off"/>
                     <label htmlFor="password">Password : </label>
-                    <input type="text" name="password" id="password" onChange={handleChange} value={user.password} autoComplete="off"/>
+                    <input type="password" name="password" id="password" onChange={handleChange} value={user.password} autoComplete="off"/>
                     <button type="submit" className="submit-btn" onClick={submitLogin}>Log In</button>
                 </form>
             </div>

@@ -23,7 +23,7 @@ function Filter(props) {
     
     return (
     <div className="orderInput">
-        <h2 style={{textAlign : 'center'}}>Filter & Search</h2>
+        <h2 style={{textAlign : 'center'}}>Filter</h2>
         <form className="inputForm">
             <label htmlFor="trade">Select trade: </label>
             <select name="trade" id="trade" onChange={handleChange}>
@@ -41,7 +41,7 @@ function Filter(props) {
             <button 
                 type="submit" 
                 onClick={submitFilters}
-                style={{marginTop : '10px'}}>View Orders</button>
+                style={{marginTop : '10px'}}>Filter Orders</button>
         </form>
      </div>
     )

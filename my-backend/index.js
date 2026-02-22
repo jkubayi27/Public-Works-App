@@ -19,11 +19,16 @@ const pool = new Pool({
     port : process.env.DB_PORT,
 });
 
-//Create session
+//Create sessions
 app.use(session({
     secret : "TOPSECRETWORD",
     resave : false,
     saveUninitialized: true,
+    cookie: {
+        maxAge: 1000*60*1,
+        httpOnly: true,
+        sameSite: "strict"
+    }
 }));
 
 app.use(passport.initialize());
@@ -115,6 +120,7 @@ app.put("/orders/:id", async (req,res) => {
         const result = await pool.query(
             "UPDATE orders SET completed = $1,date = $2,orderdesc = $3,remark = $4,trade = $5,wardnum = $6 WHERE ordernum = $7",
             [completed,date,orderdesc,remark,trade,wardnum,orderID]);
+        //Add a query to save material used
         res.json(result.rows);
     } catch (err) {
         console.log(err);
