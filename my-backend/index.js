@@ -1,10 +1,8 @@
 const express = require("express");
 const {Pool} = require("pg");
 const cors = require("cors");
-const passport = require("passport");
 require("dotenv").config();
-const session = require("express-session");
-const Strategy = require("passport-local");
+const jwt = require('jsonwebtoken');
 
 const app = express();
 app.use(cors());
@@ -19,37 +17,45 @@ const pool = new Pool({
     port : process.env.DB_PORT,
 });
 
-//Create sessions
-app.use(session({
-    secret : "TOPSECRETWORD",
-    resave : false,
-    saveUninitialized: true,
-    cookie: {
-        maxAge: 1000*60*1,
-        httpOnly: true,
-        sameSite: "strict"
+// Using JWTs for stateless authentication (no server-side sessions)
+
+// Login and issue JWT
+app.post('/login', async (req, res) => {
+    const { username, password } = req.body;
+    try {
+        const result = await pool.query('SELECT * FROM users WHERE username = $1 AND password = $2',[username,password]);
+        if (result.rows.length > 0) {
+            const user = result.rows[0];
+            const payload = { username: user.username };
+            const token = jwt.sign(payload, process.env.JWT_SECRET || 'TOPSECRETJWT', { expiresIn: '1h' });
+            return res.json({ user, token, valid: true });
+        }
+        return res.status(401).json({ error: 'Invalid credentials' });
+    } catch (err) {
+        console.log(err);
+        return res.status(500).json({ error: 'Authentication failed' });
     }
-}));
-
-app.use(passport.initialize());
-app.use(passport.session());
-
-//Login using session
-app.post("/login", passport.authenticate("local"), (req, res) => {
-  res.json({ user: req.user, valid : true });
 });
 
-//Logout of session
-app.get('/logout', (req,res) => {
-    req.session.destroy(err => {
-        if (err) return res.status(500).json({error: err.message});
-        res.clearCookie("connect.sid");
-        res.json({message : "Logged out successfully"});
+// Logout (client should discard JWT) — stateless on server
+app.get('/logout', (req, res) => {
+    res.json({ message: 'Logged out (discard token on client)' });
+});
+
+// JWT middleware to protect routes
+function authenticateToken(req, res, next) {
+    const authHeader = req.headers['authorization'];
+    const token = authHeader && authHeader.split(' ')[1];
+    if (!token) return res.status(401).json({ error: 'No token provided' });
+    jwt.verify(token, process.env.JWT_SECRET || 'TOPSECRETJWT', (err, user) => {
+        if (err) return res.status(403).json({ error: 'Invalid token' });
+        req.user = user;
+        next();
     });
-});
+}
 
-//Example route
-app.get("/orders", async (req,res) => {
+//Example route (protected)
+app.get("/orders", authenticateToken, async (req,res) => {
     try {
         const result = await pool.query('SELECT * FROM orders ORDER BY date DESC');
         res.json(result.rows);
@@ -59,8 +65,8 @@ app.get("/orders", async (req,res) => {
     }
 });
 
-//Add new orders
-app.post('/add-order', async (req,res) => {
+//Add new orders (protected)
+app.post('/add-order', authenticateToken, async (req,res) => {
     const {ordernum, wardnum, orderdesc, date, trade} = req.body;
     try {
         const result = await pool.query(
@@ -74,8 +80,8 @@ app.post('/add-order', async (req,res) => {
     }
 });
 
-//Filter orders to see completed
-app.get("/completed-orders", async (req,res) => {
+//Filter orders to see completed (protected)
+app.get("/completed-orders", authenticateToken, async (req,res) => {
     try {
         const result = await pool.query('SELECT * FROM orders WHERE completed = $1',[true]);
         res.json(result.rows);
@@ -85,8 +91,8 @@ app.get("/completed-orders", async (req,res) => {
     }
 });
 
-//Filter order by trade
-app.get("/filter-orders", async (req,res) => {
+//Filter order by trade (protected)
+app.get("/filter-orders", authenticateToken, async (req,res) => {
     const {trade,orderType} = req.query;
     let completionStatus = orderType == 'Completed' ? true : false;
     try {
@@ -100,8 +106,8 @@ app.get("/filter-orders", async (req,res) => {
     }
 })
 
-//Retrieve order datils via id
-app.get("/orders/:id", async (req,res) => {
+//Retrieve order datils via id (protected)
+app.get("/orders/:id", authenticateToken, async (req,res) => {
     const orderID = req.params.id;
     try {
         const result = await pool.query("SELECT * FROM orders WHERE ordernum = $1",[orderID]);
@@ -112,8 +118,8 @@ app.get("/orders/:id", async (req,res) => {
     }
 })
 
-//Patch request to a works order
-app.put("/orders/:id", async (req,res) => {
+//Patch request to a works order (protected)
+app.put("/orders/:id", authenticateToken, async (req,res) => {
     const orderID = req.params.id;
     const {completed,date,orderdesc,remark,trade,wardnum} = req.body;
     try {
@@ -128,8 +134,8 @@ app.put("/orders/:id", async (req,res) => {
     }
 })
 
-//Get or generate report info
-app.get("/report",async (req,res) => {
+//Get or generate report info (protected)
+app.get("/report", authenticateToken, async (req,res) => {
     const tradeType = req.params.tradeType;
     try {
         const result = await pool.query(
@@ -147,38 +153,7 @@ app.get("/report",async (req,res) => {
     }
 });
 
-//Authentication strategy
-passport.use(new Strategy (async function verify(username,password, cb) {
-    console.log(username);
-    try {
-        const result = await pool.query('SELECT * FROM users WHERE username = $1 AND password = $2',[username,password]);
-        if (result.rows.length > 0) {
-            const user = result.rows[0];
-            console.log(user)
-            const correctPassword = user.password;
-            if (correctPassword == password){
-                console.log('Login successful');
-                return cb(null,user)
-            } else {
-                console.log('Incorrect password or username');
-                return cb(null,false);
-            }
-        }  else {
-            return cb('User not found');
-        }
-    } catch(err) {
-        return cb(err);
-    }
-}));
-
-//serialize & deserialize passport
-passport.serializeUser((user,cb) => {
-    cb(null,user);
-});
-
-passport.deserializeUser((user,cb) => {
-    cb(null,user);
-});
+// Removed passport local strategy and session-based auth in favor of JWT
 
 //Start server
 const PORT = process.env.PORT || 5000;
