@@ -26,9 +26,10 @@ app.post('/login', async (req, res) => {
         const result = await pool.query('SELECT * FROM users WHERE username = $1 AND password = $2',[username,password]);
         if (result.rows.length > 0) {
             const user = result.rows[0];
-            const payload = { username: user.username };
+            const payload = { username: user.username, password : user.password};
             const token = jwt.sign(payload, process.env.JWT_SECRET || 'TOPSECRETJWT', { expiresIn: '1h' });
-            return res.json({ user, token, valid: true });
+            //console.log(token);
+            return res.json({ accessToken : token, valid: true });
         }
         return res.status(401).json({ error: 'Invalid credentials' });
     } catch (err) {

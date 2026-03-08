@@ -11,6 +11,7 @@ function App() {
     fetch("http://localhost:5000/orders")
     .then(res => res.json())
     .then(data => setOrders(data))
+    .then(console.log(orders))
   },[]);
 
   /*async function filterByCompleted() {
@@ -25,6 +26,7 @@ function App() {
         params: {trade : filter.trade, orderType : filter.orderType},
       });
       setOrders(response.data);
+      console.log(orders);
     } catch (error) {
       console.error("Error filtering data");
     }
