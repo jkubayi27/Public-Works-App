@@ -1,6 +1,6 @@
 import { useState } from "react"
 import Header from "./Header"
-import axios from "axios";
+import api from "./api";
 import ReportItem from "./ReportItem";
 function Report() {
 
@@ -20,7 +20,7 @@ function Report() {
     //function gets data of number of each trades occurences
     async function generateReport() {
         try{
-            const result = await axios.get('http://localhost:5000/report');
+            const result = await api.get('/report');
             console.log(result.data);
             setReportData(result.data);
             //Add mor fech requests to make the report more detailed

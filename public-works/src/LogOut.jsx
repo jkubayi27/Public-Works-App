@@ -9,6 +9,7 @@ async function loggingOut() {
 
         // clear client auth state
         localStorage.removeItem('authenticated');
+        localStorage.removeItem('accessToken');
 
         // do a hard redirect to the sign-in page to fully reset mounted components
         // use replace so the protected route isn't left in history

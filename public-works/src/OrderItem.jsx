@@ -1,8 +1,8 @@
-import axios from "axios";
 import React, { useEffect } from "react";
 import { useParams } from "react-router-dom";
 import Header from "./Header";
 import MaterialInput from "./components/Material";
+import api from "./api";
 
 function OrderItem() {
     const [worksOrder,setWorksOrder] = React.useState({});
@@ -10,12 +10,12 @@ function OrderItem() {
     const {id} = useParams();
     
     useEffect(() => {
-    fetch(`http://localhost:5000/orders/${id}`)
-    .then(res => res.json())
-    .then(data => {
-        setWorksOrder(data[0]);
-        setIsComplete(data[0].completed);
-    })
+    api.get(`/orders/${id}`)
+      .then(res => {
+        setWorksOrder(res.data[0]);
+        setIsComplete(res.data[0]?.completed);
+      })
+      .catch(err => console.error('Failed to load order', err));
     },[]);
 
     console.log(worksOrder);
@@ -33,7 +33,7 @@ function OrderItem() {
    const updateOrder  = async (e) => {
         e.preventDefault();
         try {
-            const response = await axios.put(`http://localhost:5000/orders/${id}`,worksOrder);
+            const response = await api.put(`/orders/${id}`, worksOrder);
             console.log('User updated:', response.data);
         } catch (error) {
             console.error('Error updating order:', error);

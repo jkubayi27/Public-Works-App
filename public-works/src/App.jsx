@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react'
-import axios from 'axios'
+import api from './api'
 import Header from './Header'
 import Filter from './FilterArea'
 import Result from './Result'
@@ -8,10 +8,9 @@ function App() {
   const [orders, setOrders] = useState([]);
   
   useEffect(() => {
-    fetch("http://localhost:5000/orders")
-    .then(res => res.json())
-    .then(data => setOrders(data))
-    .then(console.log(orders))
+    api.get('/orders')
+      .then(res => setOrders(res.data))
+      .catch(err => console.error('Failed to load orders', err));
   },[]);
 
   /*async function filterByCompleted() {
@@ -22,13 +21,12 @@ function App() {
 
   async function filterOrders(filter) {
     try {
-      const response = await axios.get('http://localhost:5000/filter-orders',{
-        params: {trade : filter.trade, orderType : filter.orderType},
+      const response = await api.get('/filter-orders', {
+        params: {trade: filter.trade, orderType: filter.orderType},
       });
       setOrders(response.data);
-      console.log(orders);
     } catch (error) {
-      console.error("Error filtering data");
+      console.error("Error filtering data", error);
     }
   }
 

@@ -2,13 +2,18 @@ import axios from 'axios';
 
 const api = axios.create({
   baseURL: 'http://localhost:5000',
-  withCredentials: true // Required for session cookies to be sent/received
+  // Do not send cookies in cross-origin requests; we use JWTs stored in localStorage
+  withCredentials: false,
 });
 
-// Request interceptor - add session cookie
+// Request interceptor - add JWT auth header when available
 api.interceptors.request.use(
   (config) => {
-    // Get session ID from cookie (handled automatically by withCredentials)
+    const token = localStorage.getItem('accessToken');
+    if (token) {
+      config.headers = config.headers || {};
+      config.headers.Authorization = `Bearer ${token}`;
+    }
     return config;
   },
   (error) => {

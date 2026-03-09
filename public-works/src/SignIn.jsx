@@ -1,4 +1,4 @@
-import axios from "axios";
+import api from "./api";
 import Header from "./Header";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
@@ -15,15 +15,17 @@ function SignIn() {
     async function submitLogin(e) {
        e.preventDefault();
        try {
-           const res = await axios.post("http://localhost:5000/login", { username: user.username, password: user.password });
-           if (res.data.valid == true) {
-             // mark user as authenticated (simple flag). In a real app store a JWT or session token.
+           const res = await api.post("/login", { username: user.username, password: user.password });
+           if (res.data.valid === true) {
+             // store JWT for future requests
+             localStorage.setItem('accessToken', res.data.accessToken);
              localStorage.setItem('authenticated', 'true');
              navigate('/home');
            }
        } catch(err) {
            alert('Incorrect username or password');
            localStorage.removeItem('authenticated');
+           localStorage.removeItem('accessToken');
        }
     }
     return (

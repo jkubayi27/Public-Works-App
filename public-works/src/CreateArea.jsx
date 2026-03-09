@@ -1,5 +1,6 @@
 import { useState } from "react"
 import Header from "./Header";
+import api from "./api";
 function CreateOrder(props) {
     const [newOrder,setNewOrder] = useState({
         ordernum : '', 
@@ -18,13 +19,8 @@ function CreateOrder(props) {
 
     async function addOrder(newOrder) {
         const {ordernum,wardnum, orderdesc, date, trade} = newOrder;
-        const response = await fetch('http://localhost:5000/add-order',{
-        method: 'POST',
-        headers: {"Content-type":"application/json"},
-        body: JSON.stringify({ordernum,wardnum,orderdesc, date, trade}),
-        });
-        const data = await response.json();
-        if (data) {
+        const response = await api.post('/add-order', { ordernum, wardnum, orderdesc, date, trade });
+        if (response.data) {
             alert('Works Order successfully created');
         }
     }
